@@ -4,7 +4,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JDBCDemo {
-	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -17,7 +16,7 @@ public class JDBCDemo {
 	
 	public static void update() {// 增 删 改
 		Connection connection = null;
-		Statement stmt = null;
+		java.sql.Statement stmt = null;
 		try {
 			// a.导入驱动，加载具体的驱动类
 			Class.forName("oracle.jdbc.OracleDriver");	// 加载具体的驱动类
@@ -45,7 +44,7 @@ public class JDBCDemo {
 		finally {
 			try {
 				if(stmt!=null) stmt.close();	// 对象，方法
-				if（connection!= null） connection.close();
+				if(connection!= null) connection.close();
 			}catch (SQLException e) {
 				e.printStackTrace();
 			}
