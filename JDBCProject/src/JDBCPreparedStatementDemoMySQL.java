@@ -1,4 +1,5 @@
 import java.sql.Statement;
+import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -78,23 +79,37 @@ public class JDBCPreparedStatementDemoMySQL {
 			Class.forName("com.mysql.jdbc.Driver");	// 加载具体的驱动类
 			// b.与数据库建立连接
 			connection = DriverManager.getConnection(URL,USERNAME,PWD);
-			
+			Scanner input = new Scanner(System.in);
+			System.out.print("请输入用户名：");
+			String name = input.nextLine();
+			System.out.print("请输入密码：");
+			String pwd = input.nextLine();
 			
 			// String sql = "select * from student where stuname like '%"+name+"%' ";
-			String sql = "select * from student where stuname like ? ";			// 查
-			
+			// String sql = "select * from student where stuname like ? ";			// 查
+			String sql = "select count(*) from login where uname=? and upwd =?";
 			// c.发送sql，执行(增删改、查)
 			pstmt =  connection.prepareStatement(sql);
-			pstmt.setString(1,"%x%");
+			pstmt.setString(1,name);
+			pstmt.setString(2,pwd);
 			// String sql = "select stuno,stuname from student";			// 查
 			// 执行SQL
 			rs = pstmt.executeQuery();	// 返回值表示 增删改 几条数据
 			// d.处理结果
-			while(rs.next()) {
-				int sno = rs.getInt("stuno");
-				String sname = rs.getString("stuname");
-				System.out.println(sno+"--"+sname);
+			int count = -1;
+			if(rs.next()) {
+				count = rs.getInt(1);
+				if(count>0) {
+					System.out.println("登陆成功！");
+				}else {
+					System.out.println("登陆失败。");
+				}
 			}
+//			while(rs.next()) {
+//				int sno = rs.getInt("stuno");
+//				String sname = rs.getString("stuname");
+//				System.out.println(sno+"--"+sname);
+//			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

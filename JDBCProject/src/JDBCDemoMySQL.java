@@ -1,4 +1,5 @@
 import java.sql.Statement;
+import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -65,16 +66,32 @@ public class JDBCDemoMySQL {
 			// c.发送sql，执行(增删改、查)
 			stmt =  connection.createStatement();
 			// String sql = "select stuno,stuname from student";			// 查
-			String name = "x";
-			String sql = "select * from student where stuname like '%"+name+"%' ";			// 查
+//			String name = "x";
+			Scanner input = new Scanner(System.in);
+			System.out.print("请输入用户名：");
+			String name = input.nextLine();
+			System.out.print("请输入密码：");
+			String pwd = input.nextLine();
+			String sql = "select count(*) from login where uname='"+name+"' and upwd ='"+pwd+"' ";
+//			String sql = "select * from student where stuname like '%"+name+"%' ";			// 查
 			// 执行SQL
 			rs = stmt.executeQuery(sql);	// 返回值表示 增删改 几条数据
 			// d.处理结果
-			while(rs.next()) {
-				int sno = rs.getInt("stuno");
-				String sname = rs.getString("stuname");
-				System.out.println(sno+"--"+sname);
+			int count = -1;
+			if(rs.next()) {
+				count = rs.getInt(1);
+				if(count>0) {
+					System.out.println("登陆成功！");
+				}else {
+					System.out.println("登陆失败。");
+				}
 			}
+			
+//			if(rs.next()) {
+//				int sno = rs.getInt("stuno");
+//				String sname = rs.getString("stuname");
+//				System.out.println(sno+"--"+sname);
+//			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
