@@ -22,21 +22,22 @@ public class LoginDao {
 			// c.发送sql，执行(查)
 			stmt =  connection.createStatement();
 			
+			// select * from login where uname = "aspire" and upwd = "aspire";
+
 			
-			
-			
-			String sql = "select count(*) from login where uname='"+login.getName()+"' and upwd ='"+login.getPwd()+"' ";
+
+//			String sql = "select count(*) from login where uname='"+login.getName()+"' and upwd ='"+login.getPwd()+"' " ;
+
+			// select * from login where uname = "aspire" and upwd = "aspire";
+			String sql = "select * from login where uname='"+login.getName()+"' and upwd ='"+login.getPwd()+"' " ;
 			// 执行SQL
 			rs = stmt.executeQuery(sql);	// 返回值表示 增删改 几条数据
 			// d.处理结果
 			int count = -1;
 			if(rs.next()) {
 				count = rs.getInt(1);
-				System.out.println("rs.getInt(1):"+rs.getInt(1));
 
 			}
-			System.out.print(count);
-			System.out.println("rs.next():"+rs.next());
 			return count;
 
 		} catch (ClassNotFoundException e) {

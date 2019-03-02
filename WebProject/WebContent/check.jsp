@@ -17,16 +17,12 @@
 			LoginDao dao = new LoginDao();
 			
 			int result = dao.login(login);
-			System.out.print("A");
 			if(result > 0){
 				out.print("登陆成功");
-				System.out.print("1");
 			}else if(result==0){
 				out.print("用户名或者密码错误");
-				System.out.print("2");
 			}else{
 				out.print("系统异常");
-				System.out.print("3");
 			}
 			System.out.print("B");
 
