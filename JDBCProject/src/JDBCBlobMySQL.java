@@ -2,9 +2,11 @@ import java.sql.Statement;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.sql.Connection;
@@ -13,21 +15,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class JDBCTextMySQL {
+public class JDBCBlobMySQL {
 	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		 TextDemo();
-		clobReadDemo();
+//		 blobDemo();
+		blobReadDemo();
 
 	}
 	private static final String URL = "jdbc:mysql://localhost:3306/testdata";
 	private static final String USERNAME = "root";
 	private static final String PWD = "15111202020";
 	
-	// 通过JDBC存储大文本数据(小说)TEXT
-	public static void TextDemo() {
+	// 通过JDBC存储二进制文件（mp3）
+	// 设置Blog类型
+	public static void blobDemo() {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -36,19 +39,17 @@ public class JDBCTextMySQL {
 			// b.与数据库建立连接
 			connection = DriverManager.getConnection(URL,USERNAME,PWD);
 
-			String sql = "insert into mynovel values(?,?)";
+			String sql = "insert into mymusic values(?,?)";
 			
 			
-			// c.发送sql，执行(增删改、查)
+			// c.发送sql，执行(增删改)
 			pstmt =  connection.prepareStatement(sql);
-			pstmt.setInt(1, 2);
-			File file = new File("D:\\all-workspace\\JavaWeb_JSP\\textdemo.txt");
-			InputStream in = new FileInputStream(file);
-			Reader reader = new InputStreamReader(in, "UTF-8");// 转换流 可以设置编码
-//			pstmt.setCharacterStream(2, reader,  (int)file.length());
-			pstmt.setCharacterStream(2, reader, 14000);
+			pstmt.setInt(1, 1);
+			File file = new File("D:\\all-workspace\\JavaWeb_JSP\\music.mp3");
 			
-//			pstmt.setString(2, "D:\\all-workspace\\JavaWeb_JSP\\小说.txt");
+			InputStream in = new FileInputStream(file);
+			pstmt.setBinaryStream(2, in, 12800);
+			
 
 			int count = pstmt.executeUpdate();
 			
@@ -56,8 +57,7 @@ public class JDBCTextMySQL {
 			if (count>0) {
 				System.out.println("操作成功。");
 			}
-			
-		reader.close();
+			in.close();
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -75,7 +75,8 @@ public class JDBCTextMySQL {
 			}
 		}
 	}
-	public static void clobReadDemo() {
+	// 读取二进制文件
+	public static void blobReadDemo() {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -85,7 +86,7 @@ public class JDBCTextMySQL {
 			// b.与数据库建立连接
 			connection = DriverManager.getConnection(URL,USERNAME,PWD);
 
-			String sql = "select NOVEL from mynovel where id = ? ";
+			String sql = "select music from mymusic where id = ? ";
 			
 			
 			// c.发送sql，执行(查)
@@ -95,16 +96,16 @@ public class JDBCTextMySQL {
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				Reader reader =  rs.getCharacterStream("NOVEL");
-				Writer writer = new FileWriter("src/小说.txt");
+				InputStream in =  rs.getBinaryStream("music");
+				OutputStream out = new FileOutputStream("src/jsp_music.mp3");
 				
-				char[] chs = new char[100];
+				byte[] bt = new byte[100];
 				int len = -1;
-				while( (len = reader.read(chs))!= -1) {
-					writer.write(chs,0,len);
+				while( (len = in.read(bt))!= -1) {
+					out.write(bt,0,len);
 				}
-				writer.close();
-				reader.close();
+				out.close();
+				in.close();
 			}
 
 		} catch (ClassNotFoundException e) {

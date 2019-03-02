@@ -14,7 +14,7 @@ public class JDBCPrepareStatementDemoMySQL {
 		// TODO Auto-generated method stub
   
 //		invokeProcedure();
-		invokeFunction();
+	    invokeFunction();
 
 	}
 	private static final String URL = "jdbc:mysql://localhost:3306/testdata";
