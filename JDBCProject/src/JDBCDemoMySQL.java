@@ -10,7 +10,7 @@ public class JDBCDemoMySQL {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		// update();
+//		 update();
 		query();
 
 	}
