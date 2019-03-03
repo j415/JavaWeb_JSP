@@ -9,9 +9,17 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+	<context-param>
+		<param-name>globalParam</param-name>
+		<param-value>global value...</param-value>
+	</context-param>
   <servlet>
     <servlet-name>WelcomeServlet</servlet-name>
     <servlet-class>org.lang.servelt.WelcomeServlet</servlet-class>
+		<init-param>
+			<param-name>servletparamname</param-name>
+			<param-value>servletparamvalue...</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
