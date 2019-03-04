@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.student.entity.Student;
 // 访问数据层 原子性的 增删该查
@@ -14,11 +16,9 @@ public class StudentDao {
 	final String PWD = "15111202020";
 	
 	
-	public boolean isExist(int sno) {// false:此人不存在，true:此人存在
-		return queryStudentBySno(sno)==null? false:true;
-	}
+
 	
-	
+	// 增加学生
 	public boolean addStudent(Student student) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -60,7 +60,144 @@ public class StudentDao {
 		}
 	}
 	
-	// 根据学生查学号
+	//根据学好修改学生：根据sno知道要修改的人，把这个人修改成student
+	public boolean updateStudentBySno(int sno,Student student) {
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection(URL, USERNAME, PWD);
+			String sql = "update student set sname =?,sage=?,saddress=? where sno=?" ;
+			pstmt = connection.prepareStatement(sql);
+			// 修改后的内容
+			pstmt.setString(1, student.getSname());
+			pstmt.setInt(2, student.getSage());
+			pstmt.setString(3, student.getSaddress());
+			// 要修改的人
+			pstmt.setInt(4, sno);
+			int count = pstmt.executeUpdate();
+			if(count>0) {
+				return true;
+			}else {
+				return false;
+			}
+			
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			 try {
+				 if(pstmt!=null) pstmt.close();
+				 if(connection!=null) connection.close();
+			 }catch (SQLException e) {
+				 e.printStackTrace();
+			 }catch (Exception e) {
+				 e.printStackTrace();
+			 }
+		}
+	}
+	
+	// 根据学号删学生
+	public boolean deleteStudentBySno(int sno) {
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection(URL, USERNAME, PWD);
+			String sql = "delete from student where sno = ? " ;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, sno);
+			int count = pstmt.executeUpdate();
+			if(count>0) {
+				return true;
+			}else {
+				return false;
+			}
+			
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			 try {
+				 if(pstmt!=null) pstmt.close();
+				 if(connection!=null) connection.close();
+			 }catch (SQLException e) {
+				 e.printStackTrace();
+			 }catch (Exception e) {
+				 e.printStackTrace();
+			 }
+		}
+	}
+	
+	// 查询全部学生
+	public List<Student> queryAllStudents() {
+		List<Student> students = new ArrayList<Student>();
+		Student student = null;
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection(URL, USERNAME, PWD);
+			
+			String sql = "select * from student";
+			pstmt = connection.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int no = rs.getInt("sno");
+				String name = rs.getString("sname");
+				int age = rs.getInt("sage");
+				String address = rs.getString("saddress");
+				student = new Student(no,name,age,address);
+				students.add(student);
+				
+			}	
+
+			return students;	
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			 try {
+				 if(rs!=null) rs.close();
+				 if(pstmt!=null) pstmt.close();
+				 if(connection!=null) connection.close();
+			 }catch (SQLException e) {
+				 e.printStackTrace();
+			 }catch (Exception e) {
+				 e.printStackTrace();
+			 }
+		}
+		return students;
+		
+	}
+	
+	
+	// 查询此人是否存在
+	public boolean isExist(int sno) {// false:此人不存在，true:此人存在
+		return queryStudentBySno(sno)==null? false:true;
+	}
+	
+	
+	// 根据学号查学生
 	public Student queryStudentBySno(int sno) {
 		Student student = null;
 		Connection connection = null;
@@ -81,9 +218,9 @@ public class StudentDao {
 				String address = rs.getString("saddress");
 				student = new Student(no,name,age,address);
 				
-			}
-			return student;		
-			
+			}	
+
+			return student;	
 		}catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}catch(SQLException e) {

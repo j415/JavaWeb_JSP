@@ -48,4 +48,8 @@ public class Student {
 	}
 	
 
+	@Override
+	public String toString() {
+		return this.getSno()+"--"+this.getSname()+"--"+this.getSage()+"--"+this.getSaddress();
+	}
 }
