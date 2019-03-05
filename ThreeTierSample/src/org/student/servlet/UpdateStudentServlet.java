@@ -32,7 +32,8 @@ public class UpdateStudentServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		if(result) {
-			out.print("修改成功");
+			//out.print("修改成功");
+			response.sendRedirect("QueryAllStudentServlet");// 修改成功后再重定向到查询所有学生界面。
 		}else {
 			out.print("修改失败");
 		}

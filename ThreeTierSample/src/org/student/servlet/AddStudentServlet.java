@@ -36,10 +36,13 @@ public class AddStudentServlet extends HttpServlet {
 
 		PrintWriter out =  response.getWriter();// out: 响应
 		if(result) {
-			out.print("增加成功");
+			// out.print("增加成功");
+			request.setAttribute("message", "notError");
 		}else {
-			out.print("增加失败");
+//			out.print("增加失败");
+			request.setAttribute("message", "error");
 		}
+		request.getRequestDispatcher("QueryAllStudentServlet").forward(request, response);;
 
 	}
 
