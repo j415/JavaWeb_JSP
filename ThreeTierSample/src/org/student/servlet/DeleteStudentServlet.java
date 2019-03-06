@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.student.service.StudentService;
+import org.student.service.IStudentService;
+import org.student.service.impl.StudentServiceImpl;
 
 
 public class DeleteStudentServlet extends HttpServlet {
@@ -20,7 +21,7 @@ public class DeleteStudentServlet extends HttpServlet {
 		int no = Integer.parseInt(request.getParameter("sno"));
 		
 		
-		StudentService studentservice = new StudentService();
+		IStudentService studentservice = new StudentServiceImpl();
 		boolean result =  studentservice.deleteStudent(no);
 		
 		response.setContentType("text/html; charset=UTF-8");

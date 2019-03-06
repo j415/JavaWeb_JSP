@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.student.entity.Student;
-import org.student.service.StudentService;
+import org.student.service.IStudentService;
+import org.student.service.impl.StudentServiceImpl;
 
 
 public class QueryAllStudentServlet extends HttpServlet {
@@ -19,7 +20,7 @@ public class QueryAllStudentServlet extends HttpServlet {
 
 
 		
-		StudentService studentservice = new StudentService();
+		IStudentService studentservice = new StudentServiceImpl();
 		List<Student> students = studentservice.queryAllStudents();
 		System.out.println(students);
 		

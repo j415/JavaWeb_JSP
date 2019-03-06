@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.student.entity.Student;
-import org.student.service.StudentService;
+import org.student.service.IStudentService;
+import org.student.service.impl.StudentServiceImpl;
 
 
 public class UpdateStudentServlet extends HttpServlet {
@@ -24,7 +25,10 @@ public class UpdateStudentServlet extends HttpServlet {
 		String address = request.getParameter("saddress");
 		// 将修改后的内容分装到一个实体类中
 		Student student = new Student(name,age,address);
-		StudentService studentservice = new StudentService();
+		
+		
+		
+		IStudentService studentservice = new StudentServiceImpl();
 		boolean result = studentservice.updateStudentBySno(no, student);
 		// 设置回复信息的编码格式
 		response.setContentType("text/html; charset=UTF-8");

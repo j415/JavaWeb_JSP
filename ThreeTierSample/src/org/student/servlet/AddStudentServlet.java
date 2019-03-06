@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.student.entity.Student;
-import org.student.service.StudentService;
+import org.student.service.IStudentService;
+import org.student.service.impl.StudentServiceImpl;
 
 public class AddStudentServlet extends HttpServlet {
 
@@ -22,7 +23,7 @@ public class AddStudentServlet extends HttpServlet {
 		String address = request.getParameter("saddress");
 		Student student = new Student(no, name, age, address);
 		
-		StudentService studentService = new StudentService();
+		IStudentService studentService = new StudentServiceImpl();
 		boolean result = studentService.addStudent(student);
 		/*
 		 *   out  request  response session  application 

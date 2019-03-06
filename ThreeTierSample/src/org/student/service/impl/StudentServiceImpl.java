@@ -1,12 +1,14 @@
-package org.student.service;
+package org.student.service.impl;
 
 import java.util.List;
 
-import org.student.dao.StudentDao;
+import org.student.dao.IStudentDao;
+import org.student.dao.impl.StudentDaoImpl;
 import org.student.entity.Student;
+import org.student.service.IStudentService;
 // 业务逻辑层：逻辑性的增删改查（增：查+增），对Dao层进行组装
-public class StudentService {
-	StudentDao studentDao = new StudentDao();
+public class StudentServiceImpl implements IStudentService {
+	IStudentDao studentDao = new StudentDaoImpl();
 	
 	
 	// 查询全部学生

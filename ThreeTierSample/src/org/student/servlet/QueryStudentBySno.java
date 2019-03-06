@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.student.entity.Student;
-import org.student.service.StudentService;
+import org.student.service.IStudentService;
+import org.student.service.impl.StudentServiceImpl;
 
 
 public class QueryStudentBySno extends HttpServlet {
@@ -20,7 +21,7 @@ public class QueryStudentBySno extends HttpServlet {
 		// 获取查找学生的学号
 		int no = Integer.parseInt(request.getParameter("sno"));
 		
-		StudentService studentservice = new StudentService();
+		IStudentService studentservice = new StudentServiceImpl();
 		Student student = studentservice.queryStudentBySno(no);
 
 		request.setAttribute("student", student);
