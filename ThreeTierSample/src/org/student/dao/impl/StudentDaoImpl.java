@@ -43,12 +43,12 @@ public class StudentDaoImpl implements IStudentDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(URL, USERNAME, PWD);
 			
 			String sql = "select * from student";
-			pstmt = connection.prepareStatement(sql);
-			rs = pstmt.executeQuery();
+			
+			rs =  DBUtil.excuteQuery(sql, null);
+			
+			//rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int no = rs.getInt("sno");
 				String name = rs.getString("sname");
@@ -60,23 +60,22 @@ public class StudentDaoImpl implements IStudentDao {
 			}	
 
 			return students;	
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		finally {
-			 try {
-				 if(rs!=null) rs.close();
-				 if(pstmt!=null) pstmt.close();
-				 if(connection!=null) connection.close();
-			 }catch (SQLException e) {
-				 e.printStackTrace();
-			 }catch (Exception e) {
-				 e.printStackTrace();
-			 }
+			DBUtil.closeAll(rs, pstmt, DBUtil.connection);
+//			 try {
+//				 if(rs!=null) rs.close();
+//				 if(pstmt!=null) pstmt.close();
+//				 if(connection!=null) connection.close();
+//			 }catch (SQLException e) {
+//				 e.printStackTrace();
+//			 }catch (Exception e) {
+//				 e.printStackTrace();
+//			 }
 		}
 		return students;
 		
@@ -96,9 +95,7 @@ public class StudentDaoImpl implements IStudentDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(URL, USERNAME, PWD);
-			
+
 			String sql = "select * from student where sno=?";
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1,sno);
@@ -113,8 +110,6 @@ public class StudentDaoImpl implements IStudentDao {
 			}	
 
 			return student;	
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}catch(Exception e) {

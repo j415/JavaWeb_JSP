@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,24 +16,21 @@ public class DBUtil {
 	private static final String URL = "jdbc:mysql://localhost:3306/testdata";
 	private static final String USERNAME = "root";
 	private static final String PWD = "15111202020";
-	
+	public static Connection connection = null;
+	public static PreparedStatement pstmt = null;
+	public static ResultSet rs = null;
 	
 	// 通用的增删改
 	public static boolean excuteUpdate(String sql,Object[] params) {
-		Connection connection = null;
-		PreparedStatement pstmt = null;
+
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(URL, USERNAME, PWD);
-			
 			
 			// Object obj = {name,age,.connection ...};
 			// String sql = "delete from student where sno = ? " ;
-			 pstmt = connection.prepareStatement(sql);
 			// pstmt.setInt(1, sno);
-			 for (int i = 0; i < params.length; i++) {
-				pstmt.setObject(i+1, params[i]);
-			}
+			
+			pstmt = createPrepareStatement(sql, params);
+			
 			int count = pstmt.executeUpdate();
 			if(count>0) {
 				return true;
@@ -51,39 +49,53 @@ public class DBUtil {
 			return false;
 		}
 		finally {
-			 try {
-				 if(pstmt!=null) pstmt.close();
-				 if(connection!=null) connection.close();
-			 }catch (SQLException e) {
-				 e.printStackTrace();
-			 }catch (Exception e) {
-				 e.printStackTrace();
-			 }
+			 closeAll(null, pstmt, connection);
 		}
 	}
 	
-	// 通用的查：返回值是一个集合 （Student，List<Students>,null）
-	public ResultSet queryAllStudents(String sql,Object[] params) {
-		List<Student> students = new ArrayList<Student>();
-		Student student = null;
-		Connection connection = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(URL, USERNAME, PWD);
-			
-			// String sql = "select * from student";
-			pstmt = connection.prepareStatement(sql);
+	public static Connection getConnetcion() throws ClassNotFoundException,SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		return DriverManager.getConnection(URL, USERNAME, PWD);
+		
+	}
+	public static PreparedStatement createPrepareStatement(String sql,Object[] params) throws ClassNotFoundException, SQLException {
+		pstmt = getConnetcion().prepareStatement(sql);
+		if(params!=null) {
 			for (int i = 0; i < params.length; i++) {
 				pstmt.setObject(i+1, params[i]);
 			}
+		}
+		return pstmt;
+	}
+	
+	public static void closeAll(ResultSet rs,Statement stmt,Connection connection) {
+		try {
+			 if(rs!=null) rs.close();
+			 if(pstmt!=null) pstmt.close();
+			 if(connection!=null) connection.close();
+		 }catch (SQLException e) {
+			 e.printStackTrace();
+		 }catch (Exception e) {
+			 e.printStackTrace();
+		 }
+	}
+	
+	
+	// 通用的查：返回值是一个集合 （Student，List<Students>,null）
+	public static ResultSet excuteQuery(String sql,Object[] params) {
+		List<Student> students = new ArrayList<Student>();
+		Student student = null;
+
+		try {
+			// 获取链接对象
+
+			// String sql = "select * from student";
+			pstmt = createPrepareStatement(sql, params);
+			
 			rs = pstmt.executeQuery();
 				
 
-//			return rs;	
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			return rs;	
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}catch(Exception e) {
