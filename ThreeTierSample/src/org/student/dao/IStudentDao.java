@@ -19,6 +19,13 @@ public interface IStudentDao {
 	// 根据学号删学生
 	public boolean deleteStudentBySno(int sno) ;
 	
+	// 查询总数据数
+	public int getTotalCount();
+	
+	// currentPage:当前页（页码）  pageSize:页面大小（每页显示的数据条数）
+	public List<Student> queryStudentsByPage(int currentPage, int pageSize);
+	
+	
 	// 查询全部学生
 	public List<Student> queryAllStudents() ;
 	

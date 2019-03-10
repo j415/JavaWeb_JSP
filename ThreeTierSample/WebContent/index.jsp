@@ -1,3 +1,4 @@
+<%@page import="org.student.entity.Page"%>
 <%@page import="org.student.entity.Student"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -34,14 +35,14 @@
 		<table border="1px">
 			<tr>
 				<th>学号</th>
-				<th>姓名</th>
+				<th>姓名</th> 
 				<th>年龄</th>
 				<th>操作</th>
 			</tr>
 			<%
 				// 获取request中的数据
-				List<Student> students = (List<Student>)request.getAttribute("students");
-				for(Student student:students){
+				Page p = (Page)request.getAttribute("p");
+				for(Student student:p.getStudents()){
 			%>
 					<tr>
 						<td><a href="QueryStudentBySno?sno=<%=student.getSno() %>"><%=student.getSno() %></td>
@@ -57,6 +58,51 @@
 				
 		</table>
 		<a href="add.jsp">新規</a>
+		<%
+			if(p.getCurrentPage()==1){
+		 %>		
+		 		<a href="QueryStudentByPage?currenntPage=<%=p.getCurrentPage()+1 %>">下一页</a>
+				<a href="QueryStudentByPage?currenntPage=<%=p.getTotalPage() %>">尾页</a>
+		 		
+		<%		
+			}else if(p.getCurrentPage()==p.getTotalPage()){
+		 %>
+				<a href="QueryStudentByPage?currenntPage=1">首页</a>
+				<a href="QueryStudentByPage?currenntPage=<%=p.getCurrentPage()-1 %>">上一页</a>
+		<% 
+			}else{
+		 %>	
+				<a href="QueryStudentByPage?currenntPage=1">首页</a>
+				<a href="QueryStudentByPage?currenntPage=<%=p.getCurrentPage()-1 %>">上一页</a>
+				<a href="QueryStudentByPage?currenntPage=<%=p.getCurrentPage()+1 %>">下一页</a>
+				<a href="QueryStudentByPage?currenntPage=<%=p.getTotalPage() %>">尾页</a>
+		<%	
+			}
+		 %>
+		 
+		 
+		 <br>
+		 每页显示
+		 <select>
+		 	<option name="" value="3" >3</option>
+		 	<option value="5" >5</option>
+		 	<option value="110" >101</option>
+		 </select>
+		 条
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
 
 </body>
 </html>

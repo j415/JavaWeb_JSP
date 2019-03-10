@@ -20,6 +20,28 @@ public class DBUtil {
 	public static PreparedStatement pstmt = null;
 	public static ResultSet rs = null;
 	
+	// 查询数据库表中的数量
+	public static int getTotalCount(String sql) {
+		int count = -1;
+		try {
+			pstmt =  createPrepareStatement(sql, null);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		}catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeAll(rs, pstmt, null);
+		}
+		return count;
+	}
+	
+	
 	// 通用的增删改
 	public static boolean excuteUpdate(String sql,Object[] params) {
 
@@ -81,7 +103,7 @@ public class DBUtil {
 	}
 	
 	
-	// 通用的查：返回值是一个集合 （Student，List<Students>,null）
+	// 通用的查：返回值是一个集合 （Student，List<Students>, null）
 	public static ResultSet excuteQuery(String sql,Object[] params) {
 		List<Student> students = new ArrayList<Student>();
 		Student student = null;

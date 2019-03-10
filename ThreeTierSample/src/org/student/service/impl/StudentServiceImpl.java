@@ -50,5 +50,19 @@ public class StudentServiceImpl implements IStudentService {
 			
 		}
 	}
+	
+	// 查询当前页的数据集合
+	@Override
+	public List<Student> queryStudentsByPage(int currentPage, int pageSize) {
+		// TODO Auto-generated method stub
+		return studentDao.queryStudentsByPage(currentPage, pageSize);
+	}
+
+	//查询数据总条数
+	@Override
+	public int getTotalCount() {
+		// TODO Auto-generated method stub
+		return studentDao.getTotalCount();
+	}
 
 }
