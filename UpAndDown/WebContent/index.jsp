@@ -13,8 +13,9 @@
  			姓名:<input type="text" name="sname" /><br/>
  			上传照片:<input type="file" name="spicture" /><br/>
  			<input type="submit" value="注册">
-
  		</form>
+ 		
+ 		<a href="DownloadServlet?filename=littlelion.png">littlelion</a>
 
 </body>
 </html>
