@@ -40,6 +40,11 @@ public class InitServlet extends HttpServlet {
 		
 		request.setAttribute("my-name", "aspiring");
 		
+		request.setAttribute("nullValue", null);
+		
+
+		request.getSession().setAttribute("sessionKey", "sessionValue");
+		
 		request.getRequestDispatcher("el.jsp").forward(request, response);
 		
 	}
