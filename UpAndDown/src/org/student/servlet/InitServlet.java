@@ -1,7 +1,9 @@
 package org.student.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -42,10 +44,26 @@ public class InitServlet extends HttpServlet {
 		
 		request.setAttribute("nullValue", null);
 		
-
-		request.getSession().setAttribute("sessionKey", "sessionValue");
+		String[] strs = new String[] {"aaa","bb","c"};
+		request.setAttribute("strs", strs);
 		
-		request.getRequestDispatcher("el.jsp").forward(request, response);
+		Student stu1 = new Student();
+		Student stu2 = new Student();
+		stu1.setSname("aspire");
+		stu1.setSno(1);
+		stu2.setSno(2);
+		stu2.setSname("aspiring");
+		List<Student> stus = new ArrayList<>();
+		
+		stus.add(stu1);
+		stus.add(stu2);
+		request.setAttribute("stus", stus);
+		
+		request.getSession().setAttribute("sessionKey", "sessionValue");
+
+		// request.getRequestDispatcher("el.jsp").forward(request, response);
+		// request.getRequestDispatcher("jstl.jsp").forward(request, response);
+		request.getRequestDispatcher("jstl2.jsp").forward(request, response);
 		
 	}
 	
