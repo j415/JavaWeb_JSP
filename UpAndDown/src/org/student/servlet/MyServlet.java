@@ -11,7 +11,7 @@ public class MyServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("service fu wu duan...");
-		response.sendRedirect("jstl.jsp");
+		response.sendRedirect("jstl2.jsp");
 		
 	}
 
