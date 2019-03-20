@@ -73,4 +73,10 @@
   <listener>
     <listener-class>org.student.listener.AttributeListener</listener-class>
   </listener>
+  <listener>
+    <listener-class>org.student.listener.BeanListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.student.listener.BeanListener2</listener-class>
+  </listener>
 </web-app>
