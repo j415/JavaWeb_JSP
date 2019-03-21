@@ -19,4 +19,14 @@
     <servlet-name>MobileServlet</servlet-name>
     <url-pattern>/MobileServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>JsonServlet</display-name>
+    <servlet-name>JsonServlet</servlet-name>
+    <servlet-class>org.student.servlet.JsonServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JsonServlet</servlet-name>
+    <url-pattern>/JsonServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
