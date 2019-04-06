@@ -1,0 +1,11 @@
+.form-control {
+	width:200px;
+}
+button {
+	width:100px;
+}
+.form-log {
+	position: absolute;
+	left: 100px;
+	top: 50px;
+}
